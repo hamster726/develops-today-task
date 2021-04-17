@@ -1,19 +1,43 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
-import {useRouter} from "next/router";
+import MainLayout from "../layouts/MainLayout";
+import PostList from "../components/PostList";
+import { useDispatch, useSelector } from "react-redux";
+import {getPosts} from "../redux/reducers/reducer";
+import { Col, Container, Row } from "reactstrap";
+import {useEffect} from "react";
 
-const  Index = () => {
-  const router = useRouter();
+const Index = () => {
 
+  const { posts, isLoaded } = useSelector((state) => ({
+    posts: state.posts,
+    isLoaded: state.isLoaded,
+  }));
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getPosts())
+  }, [])
+
+
+  if (!isLoaded) {
+    return (
+      <MainLayout title={"Loading..."}>
+        <Container>
+          <Row>
+            <Col>
+              <p>Loading...</p>
+            </Col>
+          </Row>
+        </Container>
+      </MainLayout>
+    );
+  }
 
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>DevelopsToday blog Task</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-    </div>
-  )
-}
+    <MainLayout>
+      <PostList data={posts} />
+    </MainLayout>
+  );
+};
 
 export default Index;
