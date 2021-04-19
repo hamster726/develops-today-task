@@ -1,29 +1,35 @@
 import { useRouter } from "next/router";
-import Router from "next/router";
 import MainLayout from "../../layouts/MainLayout";
 import { Button, Row, Col, Container } from "reactstrap";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { getPost } from "../../redux/reducers/reducer";
 import PostComments from "../../components/PostComments";
 import { useEffect } from "react";
+import {isLoaded} from "../../redux/actions/actions";
 
-const Post = () => {
+const Post = ({props}) => {
   const router = useRouter();
-  const { post, isLoaded } = useSelector(
+
+  const postId = router.query.postid ? router.query.postid : props.postId;
+
+  const { post, loading } = useSelector(
     (state) => ({
       post: state.currentPost,
-      isLoaded: state.isLoaded,
+      loading: state.isLoaded,
     }),
     shallowEqual
   );
   const dispatch = useDispatch();
 
+
   useEffect(() => {
-    dispatch(getPost());
+    dispatch(isLoaded(false));
+    dispatch(getPost(postId));
   }, []);
 
 
-  if (!isLoaded) {
+
+  if (!loading || post === undefined) {
     return (
       <MainLayout title={"Loading..."}>
         <Container>
@@ -44,7 +50,7 @@ const Post = () => {
           <Col>
             <h1>{post.title}</h1>
             <p>{post.body}</p>
-            <Button onClick={() => Router.push("/")}>Homepage</Button>
+            <Button onClick={() => router.push("/")}>Homepage</Button>
             <hr />
             <PostComments serverPost={post} />
           </Col>
@@ -56,13 +62,11 @@ const Post = () => {
 
 export default Post;
 
-// export const getServerSideProps = async ({ params }) => {
-//   const response = await axios.get(
-//     `https://simple-blog-api.crew.red/posts/${params.postid}?_embed=comments`
-//   );
-//   return {
-//     props: {
-//       serverPost: response.data,
-//     },
-//   };
-// };
+export const getServerSideProps = async ({ params }) => {
+
+  return {
+    props: {
+      props: params.postid
+    }
+  }
+};

@@ -10,13 +10,16 @@ import {
 } from "../types";
 
 import axios from "axios";
-import { getAllPosts, isLoaded, getPost as getSinglePost} from "../actions/actions";
-import {useRouter} from "next/router";
+import {
+  getAllPosts,
+  isLoaded,
+  getPost as getSinglePost,
+} from "../actions/actions";
 
 const initialState = {
   posts: [],
   comments: [],
-  isLoaded: false,
+  isLoaded: true,
   currentPost: undefined,
 };
 
@@ -66,18 +69,28 @@ export const getPosts = () => (dispatch) => {
     .then((res) => {
       dispatch(getAllPosts(res.data));
       dispatch(isLoaded(true));
+      console.log("posts getted", res.data);
     });
 };
 
-export const getPost = () => (dispatch) => {
-  dispatch(isLoaded(false));
+export const getPost = (postId) => {
+  return (dispatch) => {
+    dispatch(isLoaded(false));
+    const response = axios
+      .get(`https://simple-blog-api.crew.red/posts/${postId}?_embed=comments`)
+      .then((res) => {
+        dispatch(getSinglePost(res.data));
+        dispatch(isLoaded(true));
+      });
+  };
+};
 
-  const response = axios
-    .get(`https://simple-blog-api.crew.red/posts/${postid}?_embed=comments`)
-    .then((res) => {
-      dispatch(getSinglePost(res.data));
-      dispatch(isLoaded(true));
-    });
+export const deletePost =  (postId) => {
+  return  (dispatch) => {
+    const response =  axios.delete(`https://simple-blog-api.crew.red/posts/${postId}`)
+      .then(dispatch(getPosts()))
+      .catch(e => console.log(`Error with deleting post: ${e}`))
+  };
 };
 
 export default reducer;

@@ -7,9 +7,8 @@ import {useEffect} from "react";
 
 const Index = () => {
 
-  const { posts, isLoaded } = useSelector((state) => ({
-    posts: state.posts,
-    isLoaded: state.isLoaded,
+  const {loading, posts} = useSelector((state) => ({
+    loading: state.isLoaded, posts: state.posts
   }));
 
   const dispatch = useDispatch();
@@ -19,7 +18,8 @@ const Index = () => {
   }, [])
 
 
-  if (!isLoaded) {
+  console.log("posts index",posts);
+  if (!loading || posts.length === 0) {
     return (
       <MainLayout title={"Loading..."}>
         <Container>
@@ -35,7 +35,7 @@ const Index = () => {
 
   return (
     <MainLayout>
-      <PostList data={posts} />
+      <PostList/>
     </MainLayout>
   );
 };

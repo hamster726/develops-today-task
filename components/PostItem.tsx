@@ -1,22 +1,22 @@
 import {Button, Card, CardText, CardTitle} from "reactstrap";
-import Router, {useRouter} from "next/router";
-import axios from "axios";
+import {useRouter} from "next/router";
+import {deletePost, getPosts} from "../redux/reducers/reducer";
+import {useDispatch} from "react-redux";
 
-const PostItem = ({data}) => {
+const PostItem = ({item}) => {
   const router = useRouter();
+  const dispatch = useDispatch();
 
-  const deletePost = () => {
-    axios.delete(`https://simple-blog-api.crew.red/posts/${data.id}`)
-      .then(resp => router.push('/'))
-      .catch(e => console.log(`Error with deleting post: ${e}`))
+  const deleteThisPost = () => {
+    dispatch(deletePost(item.id));
   }
 
   return (
     <Card body>
-      <CardTitle tag="h5">{data.title}</CardTitle>
-      <CardText>{data.body}</CardText>
-      <Button color="primary" size={'md'} onClick={() => Router.push(`/posts/${data.id}`)}>More</Button>
-      <Button color="danger" size={'md'} onClick={deletePost}>Delete</Button>
+      <CardTitle tag="h5">{item.title}</CardTitle>
+      <CardText>{item.body}</CardText>
+      <Button color="primary" size={'md'} onClick={() => router.push(`/posts/${item.id}`)}>More</Button>
+      <Button color="danger" size={'md'} onClick={deleteThisPost}>Delete</Button>
 
 
     </Card>
