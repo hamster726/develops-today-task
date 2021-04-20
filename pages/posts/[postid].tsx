@@ -28,7 +28,6 @@ const Post = ({props}) => {
   }, []);
 
 
-
   if (!loading || post === undefined) {
     return (
       <MainLayout title={"Loading..."}>
@@ -52,7 +51,7 @@ const Post = ({props}) => {
             <p>{post.body}</p>
             <Button onClick={() => router.push("/")}>Homepage</Button>
             <hr />
-            <PostComments serverPost={post} />
+            <PostComments post={post} />
           </Col>
         </Row>
       </Container>

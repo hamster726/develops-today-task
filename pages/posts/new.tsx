@@ -1,15 +1,16 @@
-import Router from "next/router";
-import Head from "next/head";
 import MainLayout from "../../layouts/MainLayout";
 import CreatePost from "../../components/CreatePost";
+import { Container } from "reactstrap";
 
 const NewPost = () => {
   return (
     <MainLayout title={`Create new post`}>
-      <h1>Create new post</h1>
-      <CreatePost/>
+      <Container>
+        <h1>Create new post</h1>
+        <CreatePost />
+      </Container>
     </MainLayout>
-  )
-}
+  );
+};
 
 export default NewPost;

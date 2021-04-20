@@ -4,7 +4,7 @@ import {
   CREATE_NEW_POST,
   UPDATE_POST,
   DELETE_POST,
-  GET_COMMENTS,
+  UPDATE_COMMENTS,
   CREATE_COMMENT,
   IS_LOADED,
 } from "../types";
@@ -44,10 +44,10 @@ const deletePost = (postId) => {
   };
 };
 
-const getComments = (postId) => {
+const updateComments = (comments) => {
   return {
-    type: GET_COMMENTS,
-    payload: postId,
+    type: UPDATE_COMMENTS,
+    payload: comments,
   };
 };
 
@@ -72,7 +72,7 @@ export {
   createNewPost,
   updatePost,
   deletePost,
-  getComments,
+  updateComments,
   createComment,
   isLoaded,
 };

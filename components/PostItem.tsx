@@ -7,8 +7,9 @@ const PostItem = ({item}) => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const deleteThisPost = () => {
-    dispatch(deletePost(item.id));
+  const deleteThisPost = async () => {
+    await dispatch(deletePost(item.id));
+    dispatch(getPosts());
   }
 
   return (

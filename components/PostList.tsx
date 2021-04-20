@@ -1,15 +1,21 @@
 import PostItem from "./PostItem";
 import {Container, Row, Col} from "reactstrap";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {useEffect} from "react";
+import {getPosts} from "../redux/reducers/reducer";
 
 
 const PostList = () => {
 
-  const {posts} = useSelector((state) => ({
-    posts: state.posts
+  const {loading, posts} = useSelector((state) => ({
+    loading: state.isLoaded, posts: state.posts
   }));
 
-  console.log("posts PostList", posts);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getPosts())
+  }, [])
 
 
   return (
@@ -20,7 +26,7 @@ const PostList = () => {
         </Col>
       </Row>
       <Row>
-          {posts.map(item => <Col sm={{ size: 4, offset: 0 }}><PostItem key={item.id} item={item}/></Col>
+          {posts.map(item => <Col sm={{ size: 4}}><PostItem key={item.id} item={item}/></Col>
           ).reverse()}
       </Row>
 
