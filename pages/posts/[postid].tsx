@@ -1,11 +1,11 @@
 import { useRouter } from "next/router";
 import MainLayout from "../../layouts/MainLayout";
-import { Button, Row, Col, Container } from "reactstrap";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { getPost } from "../../redux/reducers/reducer";
 import PostComments from "../../components/PostComments";
 import { useEffect } from "react";
 import {isLoaded} from "../../redux/actions/actions";
+import {Grid, Box, Button} from "@material-ui/core";
 
 const Post = ({props}) => {
   const router = useRouter();
@@ -31,30 +31,26 @@ const Post = ({props}) => {
   if (!loading || post === undefined) {
     return (
       <MainLayout title={"Loading..."}>
-        <Container>
-          <Row>
-            <Col>
+        <Grid justify="center">
+            <Box>
               <p>Loading...</p>
-            </Col>
-          </Row>
-        </Container>
+            </Box>
+        </Grid>
       </MainLayout>
     );
   }
 
   return (
     <MainLayout title={post.title}>
-      <Container>
-        <Row>
-          <Col>
+      <Grid>
+        <Box>
             <h1>{post.title}</h1>
             <p>{post.body}</p>
             <Button onClick={() => router.push("/")}>Homepage</Button>
             <hr />
             <PostComments post={post} />
-          </Col>
-        </Row>
-      </Container>
+        </Box>
+      </Grid>
     </MainLayout>
   );
 };

@@ -1,17 +1,9 @@
 import { useRouter } from "next/router";
-import {
-  Row,
-  Col,
-  Container,
-  FormGroup,
-  Label,
-  Input,
-  Button,
-} from "reactstrap";
 import { useState } from "react";
-import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addPost } from "../redux/reducers/reducer";
+import {Grid, Box, Button, TextField} from "@material-ui/core";
+import {FormGroup, InputLabel} from "@material-ui/core";
 
 const CreatePost = () => {
   const router = useRouter();
@@ -27,33 +19,37 @@ const CreatePost = () => {
 
   return (
     <>
-      <Row>
-        <Col>
+      <Grid>
+        <Box>
           <FormGroup>
-            <Label for="postTitle">Title</Label>
-            <Input
-              type="text"
+            <InputLabel>Type something what you want</InputLabel>
+            <TextField
+              variant="outlined"
+              margin="normal"
               name="title"
-              id="exampleAddress2"
-              placeholder="Type your title"
+              id="postTitle"
+              label="Title"
+              fullWidth
+              autoFocus
               onChange={(e) => setPostTitle(e.target.value)}
               value={newPostTitle}
             />
-            <Label for="postBody">Post</Label>
-            <Input
-              type="textarea"
+            <TextField
+              multiline
+              rows={30}
+              variant="outlined"
+              label="What`s on your mind?"
               name="body"
-              id="exampleAddress2"
-              placeholder="What's on your mind?"
+              id="outlined-multiline-static"
               onChange={(e) => setPostBody(e.target.value)}
               value={newPostBody}
             />
-            <Button color="success" onClick={addNewPost}>
+            <Button onClick={addNewPost}>
               Send
             </Button>
           </FormGroup>
-        </Col>
-      </Row>
+        </Box>
+      </Grid>
     </>
   );
 };

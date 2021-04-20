@@ -1,16 +1,8 @@
-import {
-  Button,
-  Col,
-  Input,
-  InputGroup,
-  InputGroupAddon,
-  ListGroup,
-  ListGroupItem,
-} from "reactstrap";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { addComment } from "../redux/reducers/reducer";
 import { useDispatch, useSelector } from "react-redux";
+import {Input, Button, List, ListItem, TextField} from "@material-ui/core"
 
 const PostComments = ({ post }) => {
   const router = useRouter();
@@ -28,12 +20,10 @@ const PostComments = ({ post }) => {
   return (
     <>
       <h2>Comments</h2>
-      <InputGroup>
-        <InputGroupAddon addonType="append">
-          <Button color="success" onClick={addCurrentComment}>
+      <TextField>
+          <Button onClick={addCurrentComment}>
             Send
           </Button>
-        </InputGroupAddon>
         <Input
           type="text"
           name="text"
@@ -41,17 +31,17 @@ const PostComments = ({ post }) => {
           onChange={(e) => setCommentValue(e.target.value)}
           value={commentValue}
         />
-      </InputGroup>
+      </TextField>
       <p />
-      <ListGroup>
+      <List>
         {comments
           .map((item) => (
-            <ListGroupItem key={item.id}>
+            <ListItem key={item.id}>
               <b>{`anonymous:`}</b> {item.body}
-            </ListGroupItem>
+            </ListItem>
           ))
           .reverse()}
-      </ListGroup>
+      </List>
     </>
   );
 };
